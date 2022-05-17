@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,6 +7,7 @@
 @layer base {
   :root {
     --color-base-brightBlue: #3a7bfd;
+    --color-checkMark: linear-gradient(#999999,#919191)
     --color-base-checkBackgroundLeft: #999999;
     --color-checkBackgroundRight: #919191;
     --color-veryLightGray: #fafafa;
@@ -17,7 +20,6 @@
   }
   .dark {
     --color-veryLightGray: #fafafa;
-    --color-veryLightGrayishBlue: #e4e5f1;
     --color-lightGrayishBlue: #cacde8;
     --color-lightGrayishBlueHover: #e4e5f1;
     --color-darkGrayishBlue: #777a92;
