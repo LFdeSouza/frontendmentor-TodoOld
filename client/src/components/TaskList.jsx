@@ -1,7 +1,7 @@
 import React from "react";
 import Task from "./Task";
 
-const TaskList = () => {
+const TaskList = ({ darkTheme }) => {
   const data = [
     "Complete Javascript online course",
     "Jog around the park 3x",
@@ -11,7 +11,7 @@ const TaskList = () => {
     "Complete frontendmentor Todo challenge",
   ];
   return (
-    <main className=" mx-auto flex w-11/12 flex-col items-center">
+    <main className=" mx-auto flex w-11/12 flex-col items-center sm:max-w-xl">
       <form className="mb-5 w-full">
         <span className="checkmark z-10"></span>
         <input
@@ -21,17 +21,28 @@ const TaskList = () => {
       </form>
       <ul className="mb-5 w-full overflow-auto rounded-lg shadow-lg">
         {data.map((todo, index) => (
-          <Task key={index} content={todo} id={index} />
+          <Task key={index} content={todo} id={index} darkTheme={darkTheme} />
         ))}
         <li className="flex w-full items-center justify-between bg-white px-5 py-3 text-sm text-gray-400 dark:bg-veryDarkDesaturatedBlue dark:text-gray-600">
-          <p>5 items left</p>
-          <p>Clear completed</p>
+          <p>5 items left</p>{" "}
+          <div className=" hidden justify-center gap-3 rounded-lg bg-white px-10 dark:bg-veryDarkDesaturatedBlue sm:flex">
+            <button className="text-sm text-gray-500">All</button>
+            <button className="text-sm text-gray-500">Active</button>
+            <button className="text-sm text-gray-500">Completed</button>
+          </div>
+          <p className="cursor-pointer">Clear completed</p>
         </li>
       </ul>
-      <div className="flex w-full justify-around rounded-lg bg-white py-3 px-20 dark:bg-veryDarkDesaturatedBlue">
-        <button className="text-sm text-gray-500">All</button>
-        <button className="text-sm text-gray-500">Active</button>
-        <button className="text-sm text-gray-500">Completed</button>
+      <div className="sm: justify-centerrounded-lg flex w-full justify-around bg-white py-3 px-20 dark:bg-veryDarkDesaturatedBlue sm:hidden">
+        <button className="text-sm text-gray-500 hover:text-brightBlue">
+          All
+        </button>
+        <button className="text-sm text-gray-500 hover:text-brightBlue">
+          Active
+        </button>
+        <button className="text-sm text-gray-500 hover:text-brightBlue">
+          Completed
+        </button>
       </div>
       <div className="mt-5 text-gray-400">Drag and drop to reorder list </div>
     </main>

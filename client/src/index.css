@@ -7,7 +7,6 @@
 @layer base {
   :root {
     --color-base-brightBlue: #3a7bfd;
-    --color-checkmark: linear-gradient(#999999, #919191)
     --color-veryLightGray: #fafafa;
     --color-veryLightGrayishBlue: #e4e5f1;
     --color-lightGrayishBlue: #d2d3db;
@@ -25,7 +24,19 @@
 }
 
 @layer components {
-  .custom-checkbox{
-    @apply w-5 h-5 border-2 border-lightGrayishBlue rounded-full mr-3
+  .custom-checkbox {
+    @apply mr-3 h-5 w-5 rounded-full border-2 border-veryLightGrayishBlue;
+  }
+
+  [type="checkbox"]:checked + label .custom-checkbox {
+    @apply border-none bg-gradient-to-r from-blue-400 to-brightBlue;
+  }
+
+  [type="checkbox"]:checked + .task {
+    @apply relative text-gray-300 after:content-[""] dark:text-darkGrayishBlue;
+  }
+
+  .task::after {
+    @apply absolute left-8 right-0 h-[1px] bg-gray-300 dark:bg-darkGrayishBlue;
   }
 }

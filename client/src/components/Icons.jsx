@@ -1,8 +1,11 @@
 import React from "react";
 
-export const SunIcon = () => {
+export const SunIcon = ({ toggleTheme }) => {
   return (
-    <i className="h-7 w-7 cursor-pointer text-white">
+    <i
+      onClick={() => toggleTheme()}
+      className="h-7 w-7 cursor-pointer text-white"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26">
         <path
           fill="#FFF"
@@ -13,9 +16,12 @@ export const SunIcon = () => {
     </i>
   );
 };
-export const MoonIcon = () => {
+export const MoonIcon = ({ toggleTheme }) => {
   return (
-    <i className=" h-7 w-7 cursor-pointer text-white">
+    <i
+      onClick={() => toggleTheme()}
+      className=" h-7 w-7 cursor-pointer text-white"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26">
         <path
           fill="#FFF"
@@ -27,13 +33,13 @@ export const MoonIcon = () => {
   );
 };
 
-export const CheckIcon = () => {
+export const CheckIcon = ({ darkTheme }) => {
   return (
-    <i className=" h-5 w-5 cursor-pointer">
+    <i className="cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9">
         <path
           fill="none"
-          stroke="#FFF"
+          stroke={darkTheme ? "#25273c" : "#FFF"}
           stroke-width="2"
           d="M1 4.304L3.696 7l6-6"
         />
