@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: { josefin: "josefin sans, sans-serif" },
       colors: {
         brightBlue: "var(--color-base-brightBlue)",
+        checkmark: "var(--color-checkmark)",
         checkBackgroundLeft: "#999999",
         checkBackgroundRight: "#919191",
         veryLightGray: "var(--color-veryLightGray)",
@@ -14,6 +15,7 @@ module.exports = {
         darkGrayishBlue: "var(--color-darkGrayishBlue)",
         veryDarkGrayishBlue: "var(--color-veryDarkGrayishBlue)",
         veryDarkDesaturatedBlue: "var(--color-veryDarkDesaturatedBlue)",
+        veryDarkBlue: "var(--color-veryDarkBlue)",
       },
       backgroundImage: {
         "mobile-light": "url('./assets/images/bg-mobile-light.jpg')",
