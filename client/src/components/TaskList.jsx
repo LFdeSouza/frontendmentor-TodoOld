@@ -1,23 +1,26 @@
-import { useCallback, useContext } from "react";
-import { TasksContext } from "../dataContext";
+import { useCallback } from "react";
 import Task from "./Task";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-const TaskList = ({ darkTheme }) => {
-  const [tasks] = useContext(TasksContext);
-
-  const renderTask = useCallback((task, index, darkTheme) => {
-    return (
-      <Task
-        key={task.id}
-        task={task}
-        id={task.id}
-        darkTheme={darkTheme}
-        index={index}
-      />
-    );
-  }, []);
+const TaskList = ({ tasks, darkTheme, moveTask, completeTask, deleteTask }) => {
+  const renderTask = useCallback(
+    (task, index, moveTask, completeTask, deleteTask, darkTheme) => {
+      return (
+        <Task
+          key={task.id}
+          task={task}
+          id={task.id}
+          index={index}
+          darkTheme={darkTheme}
+          moveTask={moveTask}
+          completeTask={completeTask}
+          deleteTask={deleteTask}
+        />
+      );
+    },
+    []
+  );
 
   return (
     <main className=" mx-auto flex w-11/12 flex-col items-center sm:max-w-xl">
@@ -30,7 +33,16 @@ const TaskList = ({ darkTheme }) => {
 
       <ul className="mb-5 w-full overflow-auto rounded-lg shadow-lg">
         <DndProvider backend={HTML5Backend}>
-          {tasks.map((task, index) => renderTask(task, index, darkTheme))}
+          {tasks.map((task, index) =>
+            renderTask(
+              task,
+              index,
+              moveTask,
+              completeTask,
+              deleteTask,
+              darkTheme
+            )
+          )}
         </DndProvider>
         <li className="flex w-full items-center justify-between bg-white px-5 py-3 text-sm text-gray-400 dark:bg-veryDarkDesaturatedBlue dark:text-gray-600">
           <p className="text-sm md:text-base">

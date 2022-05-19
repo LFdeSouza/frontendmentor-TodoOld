@@ -1,32 +1,66 @@
 import { useState } from "react";
+import { produce } from "immer";
+import { data } from "./dataContext";
 import { MoonIcon, SunIcon } from "./components/Icons";
-import "./assets/images/bg-mobile-light.jpg";
 import TaskList from "./components/TaskList";
-import { TasksProvider } from "./dataContext";
 
 const App = () => {
+  const [tasks, setTasks] = useState(data);
+
   const [darkTheme, setDarkTheme] = useState(false);
 
   const toggleTheme = () => setDarkTheme(!darkTheme);
 
+  const moveTask = (dragIndex, hoverIndex) => {
+    console.log("move");
+    setTasks(
+      produce(tasks, (draft) => {
+        draft.splice(dragIndex, 1);
+        draft.splice(hoverIndex, 0, tasks[dragIndex]);
+      })
+    );
+  };
+
+  const completeTask = (index, id) => {
+    console.log("complete");
+    setTasks(
+      produce(tasks, (draft) => {
+        draft[index].completed = !draft[index].completed;
+      })
+    );
+  };
+
+  const deleteTask = (index, id) => {
+    console.log("delete");
+    setTasks(
+      produce(tasks, (draft) => {
+        draft.splice(index, 1);
+      })
+    );
+  };
+
   return (
-    <TasksProvider>
-      <div className={darkTheme && `dark`}>
-        <div className="dark:md:bg-moblie-desktop-dark min-w-screen min-h-screen bg-veryLightGrayishBlue bg-mobile-light bg-contain bg-no-repeat font-josefin dark:bg-veryDarkBlue dark:bg-mobile-dark md:bg-desktop-light dark:md:bg-desktop-dark">
-          <header className="mx-auto w-full px-10 pb-5 pt-12 sm:max-w-xl sm:px-0">
-            <div className="flex items-center justify-between">
-              <h1 className=" text-3xl tracking-[0.8rem] text-white">TODO</h1>
-              {darkTheme ? (
-                <SunIcon toggleTheme={toggleTheme} />
-              ) : (
-                <MoonIcon toggleTheme={toggleTheme} />
-              )}
-            </div>
-          </header>
-          <TaskList darkTheme={darkTheme} />
-        </div>
+    <div className={darkTheme && `dark`}>
+      <div className="min-w-screen min-h-screen bg-veryLightGrayishBlue bg-mobile-light bg-contain bg-no-repeat font-josefin dark:bg-veryDarkBlue dark:bg-mobile-dark md:bg-desktop-light dark:md:bg-desktop-dark dark:md:bg-desktop-dark">
+        <header className="mx-auto w-full px-10 pb-5 pt-12 sm:max-w-xl sm:px-0">
+          <div className="flex items-center justify-between">
+            <h1 className=" text-3xl tracking-[0.8rem] text-white">TODO</h1>
+            {darkTheme ? (
+              <SunIcon toggleTheme={toggleTheme} />
+            ) : (
+              <MoonIcon toggleTheme={toggleTheme} />
+            )}
+          </div>
+        </header>
+        <TaskList
+          tasks={tasks}
+          darkTheme={darkTheme}
+          moveTask={moveTask}
+          completeTask={completeTask}
+          deleteTask={deleteTask}
+        />
       </div>
-    </TasksProvider>
+    </div>
   );
 };
 

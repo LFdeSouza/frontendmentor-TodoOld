@@ -48,9 +48,12 @@ export const CheckIcon = ({ darkTheme }) => {
   );
 };
 
-export const CrossIcon = () => {
+export const CrossIcon = ({ deleteTask, index, id }) => {
   return (
-    <i className=" cursor-pointer opacity-70">
+    <i
+      onClick={() => deleteTask(index, id)}
+      className=" cursor-pointer opacity-70"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
         <path
           fill="#494C6B"

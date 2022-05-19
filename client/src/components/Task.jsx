@@ -1,29 +1,18 @@
 import React, { useRef, useContext } from "react";
-import { TasksContext } from "../dataContext";
 import { useDrag, useDrop } from "react-dnd";
 import { produce } from "immer";
 import { CheckIcon, CrossIcon } from "./Icons";
 
-const Task = ({ task, id, darkTheme, index }) => {
-  const [tasks, setTasks] = useContext(TasksContext);
+const Task = ({
+  task,
+  id,
+  index,
+  moveTask,
+  completeTask,
+  deleteTask,
+  darkTheme,
+}) => {
   const ref = useRef(null);
-
-  const moveTasks = (dragIndex, hoverIndex) => {
-    setTasks(
-      produce(tasks, (draft) => {
-        draft.splice(dragIndex, 1);
-        draft.splice(hoverIndex, 0, tasks[dragIndex]);
-      })
-    );
-  };
-
-  const completeTask = (id) => {
-    setTasks(
-      produce(tasks, (draft) => {
-        draft[index].completed = !draft[index].completed;
-      })
-    );
-  };
 
   const [, drop] = useDrop({
     accept: "card",
@@ -56,7 +45,7 @@ const Task = ({ task, id, darkTheme, index }) => {
         return;
       }
       // Time to actually perform the action
-      moveTasks(dragIndex, hoverIndex);
+      moveTask(dragIndex, hoverIndex);
 
       item.index = hoverIndex;
     },
@@ -89,7 +78,7 @@ const Task = ({ task, id, darkTheme, index }) => {
           name="task"
           checked={task.completed}
           id={id}
-          onChange={() => completeTask(id)}
+          onChange={() => completeTask(index, id)}
         />
         <label
           htmlFor={id}
@@ -101,7 +90,7 @@ const Task = ({ task, id, darkTheme, index }) => {
           {task.content}
         </label>
       </div>
-      <CrossIcon />
+      <CrossIcon deleteTask={deleteTask} index={index} id={id} />
     </li>
   );
 };
