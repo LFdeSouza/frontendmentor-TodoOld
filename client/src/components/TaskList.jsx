@@ -1,15 +1,24 @@
-import React from "react";
+import { useCallback, useContext } from "react";
+import { TasksContext } from "../dataContext";
 import Task from "./Task";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const TaskList = ({ darkTheme }) => {
-  const data = [
-    "Complete Javascript online course",
-    "Jog around the park 3x",
-    "10 minutes meditation",
-    "Read for 1h",
-    "Pick up groceries",
-    "Complete frontendmentor Todo challenge",
-  ];
+  const [tasks] = useContext(TasksContext);
+
+  const renderTask = useCallback((task, index, darkTheme) => {
+    return (
+      <Task
+        key={task.id}
+        task={task}
+        id={task.id}
+        darkTheme={darkTheme}
+        index={index}
+      />
+    );
+  }, []);
+
   return (
     <main className=" mx-auto flex w-11/12 flex-col items-center sm:max-w-xl">
       <form className="mb-5 w-full">
@@ -18,12 +27,15 @@ const TaskList = ({ darkTheme }) => {
           className="w-full rounded-lg px-14 py-3 text-sm dark:bg-veryDarkDesaturatedBlue dark:placeholder:text-gray-500 md:text-base"
         ></input>
       </form>
+
       <ul className="mb-5 w-full overflow-auto rounded-lg shadow-lg">
-        {data.map((todo, index) => (
-          <Task key={index} content={todo} id={index} darkTheme={darkTheme} />
-        ))}
+        <DndProvider backend={HTML5Backend}>
+          {tasks.map((task, index) => renderTask(task, index, darkTheme))}
+        </DndProvider>
         <li className="flex w-full items-center justify-between bg-white px-5 py-3 text-sm text-gray-400 dark:bg-veryDarkDesaturatedBlue dark:text-gray-600">
-          <p className="text-sm md:text-base">5 items left</p>
+          <p className="text-sm md:text-base">
+            {tasks.filter((task) => !task.completed).length} items left
+          </p>
           <div className=" hidden justify-center gap-3 rounded-lg bg-white px-10 dark:bg-veryDarkDesaturatedBlue sm:flex">
             <button className=" text-sm text-gray-500 md:text-base">All</button>
             <button className=" text-sm text-gray-500 md:text-base">
