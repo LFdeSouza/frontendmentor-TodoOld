@@ -1,6 +1,5 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { produce } from "immer";
 import { CheckIcon, CrossIcon } from "./Icons";
 
 const Task = ({
@@ -10,6 +9,7 @@ const Task = ({
   moveTask,
   completeTask,
   deleteTask,
+  filter,
   darkTheme,
 }) => {
   const ref = useRef(null);
@@ -69,6 +69,8 @@ const Task = ({
       ref={ref}
       className={`flex items-center justify-between border-b-2 border-lightGrayishBlue bg-white px-5 py-4 dark:border-b-veryDarkGrayishBlue dark:bg-veryDarkDesaturatedBlue ${
         isDragging && " opacity-10"
+      } ${task.completed && filter === "active" && "hidden"} ${
+        !task.completed && filter === "completed" && "hidden"
       }`}
     >
       <div className="flex items-center">

@@ -39,4 +39,8 @@
   .task::after {
     @apply absolute left-8 right-0 h-[1px] bg-gray-300 dark:bg-darkGrayishBlue;
   }
+
+  [type="radio"]:checked + label {
+    @apply font-bold text-brightBlue;
+  }
 }
