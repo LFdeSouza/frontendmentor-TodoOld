@@ -10,8 +10,8 @@ const App = () => {
 
   return (
     <div className={darkTheme && `dark`}>
-      <div className="dark:md:bg-moblie-desktop-dark h-screen w-screen bg-veryLightGrayishBlue bg-mobile-light bg-contain bg-no-repeat font-josefin dark:bg-veryDarkBlue dark:bg-mobile-dark md:bg-desktop-light">
-        <header className="w-full px-10 pb-5 pt-12">
+      <div className="dark:md:bg-moblie-desktop-dark min-w-screen min-h-screen bg-veryLightGrayishBlue bg-mobile-light bg-contain bg-no-repeat font-josefin dark:bg-veryDarkBlue dark:bg-mobile-dark md:bg-desktop-light dark:md:bg-desktop-dark">
+        <header className="mx-auto w-full px-10 pb-5 pt-12 sm:max-w-xl sm:px-0">
           <div className="flex items-center justify-between">
             <h1 className=" text-3xl tracking-[0.8rem] text-white">TODO</h1>
             {darkTheme ? (

@@ -13,7 +13,7 @@ const Task = ({ content, id, darkTheme }) => {
         />
         <label
           htmlFor={id}
-          className=" task flex cursor-pointer items-center justify-center text-xs text-gray-600 dark:text-gray-400"
+          className=" task flex cursor-pointer items-center justify-center text-xs text-gray-600 dark:text-gray-400 md:text-base"
         >
           <span className="custom-checkbox flex items-center justify-center">
             <CheckIcon darkTheme={darkTheme} />
