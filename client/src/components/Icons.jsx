@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../App";
 
 export const SunIcon = ({ toggleTheme }) => {
   return (
@@ -33,7 +34,8 @@ export const MoonIcon = ({ toggleTheme }) => {
   );
 };
 
-export const CheckIcon = ({ darkTheme }) => {
+export const CheckIcon = () => {
+  const darkTheme = useContext(ThemeContext);
   return (
     <i className="cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9">

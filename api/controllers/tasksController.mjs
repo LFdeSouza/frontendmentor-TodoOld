@@ -1,9 +1,10 @@
-import { Task } from "../models/Task.mjs";
+import { TaskList } from "../models/TaskList.mjs";
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
-    return res.status(200).json({ tasks });
+    const taskList = await TaskList.findById("TaskList");
+
+    return res.status(200).json({ tasks: taskList.tasks });
   } catch (error) {
     const errors = handleErrors(error);
     return res.status(400).json({ errors });
@@ -12,11 +13,12 @@ export const getTasks = async (req, res) => {
 
 export const createTask = async (req, res) => {
   try {
-    const newTask = await Task.create({
-      title: req.body.title,
-    });
-
-    return res.status(200).json({ newTask });
+    const taskList = await TaskList.findById("TaskList");
+    taskList.tasks.push(req.body);
+    await taskList.save();
+    return res
+      .status(200)
+      .json({ newTask: taskList.tasks[taskList.tasks.length - 1] });
   } catch (error) {
     const errors = handleErrors(error);
     return res.status(400).json({ errors });
@@ -25,23 +27,39 @@ export const createTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
   try {
-    const task = await Task.findByIdAndDelete(req.body.id);
-    if (!task) return res.status(400).json({ msg: "Task not found" });
-
-    return res.status(200).json({ msg: "Task deleted" });
+    const taskList = await TaskList.findById("TaskList");
+    const deletedTask = taskList.tasks.id(req.body.id).remove();
+    await taskList.save();
+    return res.status(200).json({ deletedTask });
   } catch (error) {
     const errors = handleErrors(error);
     return res.status(400).json({ errors });
   }
 };
 
-export const completeTask = async (req, res) => {
+export const clearCompleted = async (req, res) => {
   try {
-    const task = await Task.findById(req.body.id);
-    task.completed = !task.completed;
+    const taskList = await TaskList.updateOne(
+      { _id: "TaskList" },
+      { $pull: { tasks: { completed: true } } }
+    );
 
-    await task.save();
-    return res.json({ task });
+    // await taskList.save();
+    return res.status(200).json({ taskList });
+  } catch (error) {
+    const errors = handleErrors(error);
+    return res.status(400).json({ errors });
+  }
+};
+
+export const toggleCompleteTask = async (req, res) => {
+  try {
+    const taskList = await TaskList.findById("TaskList");
+    taskList.tasks.id(req.body.id).completed = !taskList.tasks.id(req.body.id)
+      .completed;
+
+    await taskList.save();
+    return res.json({ task: taskList.tasks.id(req.body.id) });
   } catch (error) {
     const errors = handleErrors(error);
     return res.status(400).json({ errors });
@@ -50,13 +68,13 @@ export const completeTask = async (req, res) => {
 
 export const reorderTasks = async (req, res) => {
   try {
-    const [task1, task2] = await Task.find({
-      _id: { $in: [req.body.id1, req.body.id2] },
-    });
+    const taskList = await TaskList.findById("TaskList");
+    const task = taskList.tasks.id(req.body.id);
+    taskList.tasks.splice(req.body.sourceIndex, 1);
+    taskList.tasks.splice(req.body.destinationIndex, 0, task);
+    await taskList.save();
 
-    [task1.index, task2.index] = [task2.index, task1.index];
-
-    return res.json({ task1, task2 });
+    return res.json({ tasks: taskList.tasks });
   } catch (error) {
     const errors = handleErrors(error);
     return res.status(400).json({ errors });
